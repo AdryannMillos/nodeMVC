@@ -1,6 +1,10 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const morgan = require('morgan');
+const helmet = require('helmet');
 const cors = require('cors');
+ require('dotenv').config();
+ require('./auth/passport');
 
 //Database Connection
 const db = require('./config/database');
@@ -11,11 +15,12 @@ db.authenticate().then(() => {
 })
 
 const app = express();
-
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use(morgan("dev"));
+app.use(helmet());
 app.use(cors("*"));
-app.use('/', require('./routes/index'));
+app.use('/', require('./routes/api.router'));
 
 const PORT = process.env.PORT || 5000;
 db.sync().then(() => {
