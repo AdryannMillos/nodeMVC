@@ -22,7 +22,7 @@ app.use(helmet());
 app.use(cors("*"));
 app.use('/', require('./routes/api.router'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 db.sync().then(() => {
     app.listen(PORT, console.log(`Server started on port ${PORT}`));
 }).catch(err => console.log("Error: " + err));
