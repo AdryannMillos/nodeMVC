@@ -4,9 +4,16 @@ const jwt = require("jsonwebtoken");
 
 const allUsers = async (req, res) => {
   const users = await User.findAll();
-  res.json(users);
+   res.status(200).json(users);
 };
-
+const singleUser = async (req, res) => {
+  const user = await User.findOne({where: {id: req.params.id}});
+  if(user){
+    res.status(200).json(user);
+  }else{
+    res.status(404).json({message: 'Not Found this user'});
+  }
+}
 const createUser = async (req, res) => {
   const userData = {
     email: req.body.email,
@@ -26,14 +33,14 @@ const createUser = async (req, res) => {
           userData.password = hash;
           User.create(userData)
             .then((user) => {
-              res.json({ message: user.email + " REGISTERED" });
+              res.status(201).json({ message: "Success registered" });
             })
             .catch((error) => {
               res.send("ERROR: " + error);
             });
         });
       } else {
-        res.json({ error: " EMAIL ALREADY EXISTS" });
+        res.json({ message: " EMAIL ALREADY EXISTS" });
       }
     })
     .catch((err) => {
@@ -65,9 +72,9 @@ const deleteUser = async (req, res) => {
   const user = await User.findByPk(userId);
   if (user) {
     User.destroy({ where: { id: userId } });
-    res.status(201).send("User with id: " + userId + " deleted");
+    res.status(201).json("User with id: " + userId + " deleted");
   } else {
-    res.status(404).send("user with " + userId + " id not found");
+    res.status(404).json("user with " + userId + " id not found");
   }
 };
 
@@ -102,6 +109,7 @@ const loginUser = async (req, res) => {
 };
 module.exports = {
   allUsers,
+  singleUser,
   createUser,
   deleteUser,
   updateUser,

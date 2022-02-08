@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "dev": "jest --watchAll",
+    "test": "jest --verbose --coverage --forceExit --watchAll --maxWorkers=1 --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "express": "^4.17.2",
     "express-handlebars": "^6.0.2",
     "helmet": "^5.0.2",
+    "jest": "^27.5.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
@@ -27,7 +28,8 @@
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.15.0"
+    "sequelize": "^6.15.0",
+    "supertest": "^6.2.2"
   },
   "devDependencies": {
     "sequelize-cli": "^6.4.1"

@@ -5,6 +5,7 @@ const authTest = require("../controllers/authTest");
 const passport = require("passport");
 
 router.get("/api/v1/users", userController.allUsers);
+router.get("/api/v1/user/:id", userController.singleUser);
 router.post("/api/v1/user/register", userController.createUser);
 router.put("/api/v1/user/:id/update", userController.updateUser);
 router.delete("/api/v1/user/:id/delete", userController.deleteUser);
