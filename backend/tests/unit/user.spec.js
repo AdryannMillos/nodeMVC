@@ -48,75 +48,53 @@ describe("Get all users --> /api/v1/users", () => {
       return await request(app)
         .get("/api/v1/user/9999990")
         .expect(404)
-        .send(
-          expect.objectContaining({
-            message: "Not Found this user",
-          })
-        );
+        // .expect(request).toEqual(
+        //   expect.objectContaining({
+        //      message: "",
+        //   })
+        // );
     });
   });
 
-// describe("Post create an user --> /api/v1/register/user", () => {
-//   const user = User.create({
-//     firstname: "adryann",
-//     lastname: "freitas",
-//     email: "luluzinha123@12345.com",
-//     password: "123456",
-//   });
-//   const deleteUser = User.destroy({where: {email: user.email}});
-//   it("Create an user", async () => {
-//     return await request(app)
-//       .post("/api/v1/user/register")
-//       .send(
-//         user
-//       )
-//       .expect(201)
-//       .then((response) => {
-//         expect(response.body).toEqual(
-//           expect.objectContaining({
-//             message: "Success registered",
-//           })
-//         );
-//         deleteUser
-//       });
-//       ;
-//   });
-// });
-
-// it("GET /api/v1/user/:id --> get an specific user", async () => {
-// return await request(app)
-//   .get("/api/v1/user/:id")
-//   .expect("Content-Type", /json/)
-//   .expect(200)
-//   .then((response) => {
-//     expect(response.body).toEqual(
-//       expect.objectContaining({
-//         firstname: expect.any(String),
-//         lastname: expect.any(String),
-//         email: expect.any(String),
-//         password: expect.any(String),
-//       })
-//     );
-//   });
-// });
-// it("GET /api/v1/user/:id --> 404 if not found", () => {});
-// it("POST /api/v1/user/register --> create an user", async () => {
-// return await request(app)
-//   .post("/api/v1/user/register")
-//   .send({
-//     firstname: "adryann",
-//     lastname: "freitas",
-//     email: "lulu@123.com",
-//     password: "123456",
-//   })
-//   .expect("Content-Type", /json/)
-//   .expect(201)
-//   .then((response) => {
-//     expect(response.body).toEqual(
-//       expect.objectContaining({
-//        message: "Success registered",
-//       })
-//     );
-//   });
-// });
-// it("GET /api/v1/user/:id --> validates request body", () => {});
+describe("Post create an user --> /api/v1/register/user", () => {
+  it("Create an user", async () => {
+    return await request(app)
+      .post("/api/v1/user/register")
+      .send({
+        firstname: "João",
+        lastname: "freitas",
+        email: "luluzinha123@1234567.com",
+        password: "123456",
+      })
+      .expect(201);
+  });
+  afterAll(async () => {
+    await User.destroy({ where: { email: "luluzinha123@1234567.com" } });
+  });
+});
+describe("Delete, Delete an specific user --> /api/v1/user/:id/delete", () => {
+  beforeAll(async () => {
+    return await User.create({
+      firstname: "João",
+      lastname: "freitas",
+      email: "luluzinha123@1234567890.com",
+      password: "123456",
+    })});
+  it("Delete an user", async () => {
+    const foundUser = await User.findOne({ where: {email: "luluzinha123@1234567890.com"}})
+    const userId = foundUser.id
+    return await request(app)
+      .delete(`/api/v1/user/${userId}/delete`)
+      .expect(200)
+      // .expect((request(app)).toEqual(
+      //   expect.objectContaining({
+      //          message: 'User deleted successfully',
+      //       })
+      // ));
+  });
+  it("Delete an user", async () => {
+    return await request(app)
+    .delete(`/api/v1/user/90009090/delete`)
+    .expect(404)
+})
+});

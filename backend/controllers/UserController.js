@@ -72,7 +72,7 @@ const deleteUser = async (req, res) => {
   const user = await User.findByPk(userId);
   if (user) {
     User.destroy({ where: { id: userId } });
-    res.status(201).json("User with id: " + userId + " deleted");
+    res.status(200).json("User deleted successfully");
   } else {
     res.status(404).json("user with " + userId + " id not found");
   }
